@@ -1,4 +1,4 @@
-package myrelease
+package main
 
 import (
 	"github.com/boyenn/myrelease/cmd"
