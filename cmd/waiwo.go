@@ -6,8 +6,8 @@ import (
 )
 
 func ListWhatAmIWorkingOn(jiraUser string, jiraPass string) {
-	jiraApi := jira.CreateJira("https://jira.tvh.com/rest/api/latest/", jiraUser, jiraPass);
-	issuePage, e := jiraApi.GetIssues(`project=RMS AND assignee=` + jiraUser + ` AND status not in (Done,Resolved)`)
+	jiraApi := jira.CreateJira("https://jira.qone.mateco.eu/rest/api/latest/", jiraUser, jiraPass);
+	issuePage, e := jiraApi.GetIssues(`project=RMS AND assignee="` + jiraUser + `" AND status not in (Done,Resolved)`)
 	if e != nil {
 		panic(e)
 	}

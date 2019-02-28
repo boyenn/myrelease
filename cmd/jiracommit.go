@@ -10,7 +10,7 @@ import (
 )
 
 func CreateCommitTemplate(jiraUser string, jiraPass string) {
-	jiraApi := jira.CreateJira("https://jira.tvh.com/rest/api/latest/", jiraUser, jiraPass);
+	jiraApi := jira.CreateJira("https://jira.qone.mateco.eu/rest/api/latest/", jiraUser, jiraPass);
 	currentDir := helpers.GetFullDirName()
 	fullBranchName := helpers.GetBranchName(currentDir)
 	split := strings.Split(fullBranchName, "/")

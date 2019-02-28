@@ -2,7 +2,9 @@ package main
 
 import (
 	"github.com/boyenn/myrelease/cmd"
+	"github.com/boyenn/myrelease/lib/cloudbuild"
 	"github.com/boyenn/myrelease/lib/helpers"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/urfave/cli"
 	"log"
 	"os"
@@ -22,6 +24,7 @@ func main() {
 	var jenkinsPass string
 	var jiraPass string
 	var jiraUser string
+	var serviceAccountFile string
 	var spinnakerSessionCookie string
 
 	app.Commands = []cli.Command{
@@ -170,6 +173,42 @@ func main() {
 					Usage: "What am I working on?",
 					Action: func(c *cli.Context) error {
 						cmd.ListWhatAmIWorkingOn(jiraUser, jiraPass)
+						return nil
+					},
+				},
+			},
+		},
+		{
+			Name:  "cloudbuild",
+			Usage: "cloudbuild commands",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:        "service-account-file",
+					EnvVar:      "SERVICE_ACCOUNT_FILE",
+					Destination: &serviceAccountFile,
+				},
+			},
+			Subcommands: []cli.Command{
+				{
+					Name:  "dockertag",
+					Usage: "get dockertag based on revision",
+					Action: func(c *cli.Context) error {
+
+						var lookingForRevision string
+						if len(c.Args()) == 1 {
+							lookingForRevision = c.Args().Get(0)
+						} else {
+							currentDir := helpers.GetFullDirName()
+							lookingForRevision = helpers.GetCommitHash(currentDir)
+						}
+
+						svc, e := cloudbuild.CreateClient(serviceAccountFile)
+						build, e := cmd.GetDockerImage(lookingForRevision, svc)
+						if e != nil {
+							return e
+						}
+						_, _ = os.Stdout.WriteString(build.Results.Images[0].Name + "\n")
+						spew.Dump()
 						return nil
 					},
 				},
