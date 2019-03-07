@@ -9,7 +9,8 @@ import (
 )
 
 func GetDockerImage(lookingForRevision string, svc *cloudbuild.Service) (*cloudbuild.Build, error) {
-	response, e := svc.Projects.Builds.List("mateco-mysite").Do()
+	response, e := svc.Projects.Builds.List("mateco-mysite").PageSize(1000).Do()
+
 	if e != nil {
 		panic(e)
 	}
