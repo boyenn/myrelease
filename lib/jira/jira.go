@@ -95,6 +95,7 @@ func (s *Jira) GetIssues(jql string) (*IssuePage, error) {
 
 type Issue struct {
 	Key    string `json:"key"`
+	Self   string `json:self`
 	Fields struct {
 		IssueType struct {
 			Name string `json:"name"`

@@ -12,6 +12,6 @@ func ListWhatAmIWorkingOn(jiraUser string, jiraPass string) {
 		panic(e)
 	}
 	for _, element := range issuePage.Issues {
-		fmt.Printf("%s : %s (%s)\n", element.Key, element.Fields.Summary, element.Fields.Status.Name)
+		fmt.Printf("%s : %s (%s) %s\n", element.Key, element.Fields.Summary, element.Fields.Status.Name, element.Self)
 	}
 }
